@@ -5,7 +5,7 @@ namespace Payroll.Domain.Employees
     public class IdDocument
     {
         public Guid Id { get; set; }
-        public string EmployeeNumber { get; set; }
+        public Guid EmployeeId { get; set; }
         public string IdType { get; set; }
         public string DocumentNumber { get; set; }
         public string IssuedBy { get; set; }

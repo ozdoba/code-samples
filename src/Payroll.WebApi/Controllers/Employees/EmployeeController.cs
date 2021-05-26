@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Payroll.Application.Common.Interfaces;
+using Payroll.Application.Employees.Commands.AddIdDocument;
 using Payroll.Application.Employees.Commands.DeleteEmployee;
 using Payroll.Application.Employees.Commands.RegisterEmployee;
 using Payroll.Application.Employees.Commands.UpdateEmployee;
 using Payroll.Application.Employees.Queries.ExportEmployees;
 using Payroll.Application.Employees.Queries.GetEmployeeDetails;
+using Payroll.Application.Employees.Queries.ListIdDocuments;
 
 namespace Payroll.WebApi.Controllers.Employees
 {
@@ -28,8 +32,13 @@ namespace Payroll.WebApi.Controllers.Employees
     public class EmployeesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ICustomerService _customerService;
 
-        public EmployeesController(IMediator mediator) => _mediator = mediator;
+        public EmployeesController(IMediator mediator, ICustomerService customerService)
+        {
+            _mediator = mediator;
+            _customerService = customerService;
+        }
         
         /// <summary>
         /// Registers a new employee
@@ -123,6 +132,51 @@ namespace Payroll.WebApi.Controllers.Employees
             var vm = await _mediator.Send(new ExportEmployeesQuery { CustomerId = customerId });
 
             return File(vm.Content, vm.ContentType, vm.FileName);
+        }
+        
+        
+        /// <summary>
+        /// Upload a new ID document
+        /// </summary>
+        /// <remarks>
+        /// Upload a new ID document for the specified employee
+        /// </remarks>
+        /// <param name="employeeNumber">Your unique employee/staff identifier</param>
+        /// <param name="command">Payload containing details of the new id document</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("idDocuments")]
+        // [SwaggerOperation(Tags = new []{ "Employees" })]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> AddIdDocument(
+            [FromBody] AddIdDocumentCommand command)
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+        
+        /// <summary>
+        /// List the id documents for the given employee
+        /// </summary>
+        /// <remarks>
+        /// List the id documents for the given employee
+        /// </remarks>
+        /// <param name="employeeNumber">Your unique employee/staff identifier</param>
+        /// <param name="command">Payload containing details of the new id document</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{employeeNumber}/idDocuments")]
+        // [SwaggerOperation(Tags = new []{ "Employees" })]
+        [ProducesResponseType(typeof(IEnumerable<IdDocumentsListVm>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> ListIdDocuments([FromRoute] string employeeNumber)
+        {
+            var idDocuments = await _mediator.Send(new ListIdDocumentsQuery { CustomerId = _customerService.GetCustomerId(), EmployeeNumber = employeeNumber });
+            return new OkObjectResult(idDocuments);
         }
     }
 }

@@ -10,7 +10,7 @@ using Payroll.Infrastructure.Persistence;
 namespace Payroll.Infrastructure.Persistence.Employees.Migrations
 {
     [DbContext(typeof(EmployeesContext))]
-    [Migration("20210526114152_InitialSetup")]
+    [Migration("20210526174743_InitialSetup")]
     partial class InitialSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,12 +114,8 @@ namespace Payroll.Infrastructure.Persistence.Employees.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("EmployeeId")
+                    b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("EmployeeNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
@@ -186,7 +182,9 @@ namespace Payroll.Infrastructure.Persistence.Employees.Migrations
                 {
                     b.HasOne("Payroll.Domain.Employees.Employee", null)
                         .WithMany("IdDocuments")
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Payroll.Domain.Employees.Employee", b =>

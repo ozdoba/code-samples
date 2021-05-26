@@ -60,7 +60,7 @@ namespace Payroll.Infrastructure.Persistence
         {
             builder.HasKey(x => x.Id);
         
-            builder.Property(x => x.EmployeeNumber).IsRequired();
+            builder.Property(x => x.EmployeeId).IsRequired();
             builder.Property(x => x.IdType).IsRequired();
             builder.Property(x => x.DocumentNumber).IsRequired();
             builder.Property(x => x.IssuedBy).IsRequired();

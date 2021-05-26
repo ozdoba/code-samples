@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Payroll.Application;
 using Payroll.Infrastructure;
 using Payroll.Infrastructure.Persistence;
@@ -38,7 +40,13 @@ namespace Payroll.WebApi
             services.AddHealthChecks()
                 .AddDbContextCheck<EmployeesContext>();
             
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(opts =>
+                {
+                    opts.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    opts.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    opts.SerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd" });
+                });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Payroll.WebApi", Version = "v1" });

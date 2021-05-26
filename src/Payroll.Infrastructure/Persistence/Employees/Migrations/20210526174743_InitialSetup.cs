@@ -49,15 +49,14 @@ namespace Payroll.Infrastructure.Persistence.Employees.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EmployeeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DocumentNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IssuedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IssuedAt = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IssueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,7 +66,7 @@ namespace Payroll.Infrastructure.Persistence.Employees.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
