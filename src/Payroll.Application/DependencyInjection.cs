@@ -9,6 +9,7 @@ namespace Payroll.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
             services.AddMediatR(typeof(DependencyInjection).Assembly);
             

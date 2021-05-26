@@ -9,6 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
       <PackageReference Include="FluentValidation" Version="10.1.0" />
       <PackageReference Include="FluentValidation.AspNetCore" Version="10.1.0" />
       <PackageReference Include="libphonenumber-csharp" Version="8.12.23" />

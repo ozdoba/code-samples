@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Payroll.Application.Employees.Commands.DeleteEmployee;
 using Payroll.Application.Employees.Commands.RegisterEmployee;
 using Payroll.Application.Employees.Commands.UpdateEmployee;
+using Payroll.Application.Employees.Queries.ExportEmployees;
 
 namespace Payroll.WebApi.Controllers.Employees
 {
@@ -91,6 +93,15 @@ namespace Payroll.WebApi.Controllers.Employees
             command.EmployeeNumber = employeeNumber;
             await _mediator.Send(command);
             return Ok();
+        }
+        
+        
+        [HttpGet("{customerId}/export")]
+        public async Task<FileResult> Get([FromRoute] Guid customerId)
+        {
+            var vm = await _mediator.Send(new ExportEmployeesQuery { CustomerId = customerId });
+
+            return File(vm.Content, vm.ContentType, vm.FileName);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Payroll.Application.Common.Interfaces;
+using Payroll.Infrastructure.Files;
 using Payroll.Infrastructure.Persistence;
 using Payroll.Infrastructure.Services;
 
@@ -11,9 +12,10 @@ namespace Payroll.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<ICustomerService, DefaultCustomerService>();
+            services.AddTransient<ICustomerService, DefaultCustomerService>();
             services.AddScoped<ICountryLookup, CountryLookup>();
             services.AddScoped<IDateTime, SystemDateTime>();
+            services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
             
             services.AddDbContext<EmployeesContext>(options =>
                 options.UseSqlServer(
