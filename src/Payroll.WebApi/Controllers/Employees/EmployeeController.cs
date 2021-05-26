@@ -9,6 +9,7 @@ using Payroll.Application.Employees.Commands.DeleteEmployee;
 using Payroll.Application.Employees.Commands.RegisterEmployee;
 using Payroll.Application.Employees.Commands.UpdateEmployee;
 using Payroll.Application.Employees.Queries.ExportEmployees;
+using Payroll.Application.Employees.Queries.GetEmployeeDetails;
 
 namespace Payroll.WebApi.Controllers.Employees
 {
@@ -46,6 +47,26 @@ namespace Payroll.WebApi.Controllers.Employees
         public async Task<ActionResult<string>> Register(RegisterEmployeeCommand command)
         {
             return await _mediator.Send(command);
+        }
+        
+        /// <summary>
+        /// Get employee details
+        /// </summary>
+        /// <remarks>
+        /// Get details of an employee based on the employeeId
+        /// </remarks>
+        /// <param name="employeeNumber">Your unique employee/staff identifier</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{employeeNumber}")]
+        // [SwaggerOperation(Tags = new []{ "Employees" })]
+        [ProducesResponseType(typeof(EmployeeDetailsType), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        public async Task<ActionResult<EmployeeDetailsType>> FindByEmployeeByNumber([FromRoute] string employeeNumber)
+        {
+            return await _mediator.Send(new GetEmployeeDetailsQuery() { EmployeeNumber = employeeNumber });
         }
         
         /// <summary>
