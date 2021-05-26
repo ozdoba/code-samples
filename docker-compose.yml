@@ -1,0 +1,5 @@
+version: '3.7'
+
+services:
+  payroll:
+    image: marcura/martrust-payroll:0.0.4
