@@ -6,6 +6,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Payroll.Application.Paycycles.Commands.CreatePaycycle;
+using Payroll.Application.Paycycles.Queries.GetPaycycleDetails;
+using Payroll.Application.Paycycles.Queries.ListPaycycles;
 
 namespace Payroll.WebApi.Controllers.Paycycles
 {
@@ -43,6 +45,22 @@ namespace Payroll.WebApi.Controllers.Paycycles
         public async Task<IActionResult> CreatePaycycle([FromBody] CreatePaycycleCommand command)
         {
             return new OkObjectResult(await _mediator.Send(command));
+        }
+        
+        
+        /// <summary>
+        /// Show the details of the paycycle
+        /// </summary>
+        /// <param name="paycycleId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{paycycleId}")]
+        // [SwaggerOperation(Tags = new[] {"Paycycle"})]
+        [ProducesResponseType((int) HttpStatusCode.OK, Type = typeof(PaycycleDetailsVm))]
+        [ProducesResponseType((int) HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> GetPaycycleDetails([FromRoute] Guid paycycleId)
+        {
+            return new OkObjectResult(await _mediator.Send(new GetPaycycleDetailsQuery { PaycycleId = paycycleId }));
         }
     }
 }
