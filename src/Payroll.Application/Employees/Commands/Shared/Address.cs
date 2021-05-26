@@ -1,4 +1,4 @@
-﻿namespace Payroll.Application.Employees.Shared
+﻿namespace Payroll.Application.Employees.Commands.Shared
 {
     /// <summary>
     /// Represents an address

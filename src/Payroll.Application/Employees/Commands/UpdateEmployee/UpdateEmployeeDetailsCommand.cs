@@ -6,9 +6,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Payroll.Application.Common.Exceptions;
 using Payroll.Application.Common.Interfaces;
-using Payroll.Application.Employees.Shared;
+using Payroll.Application.Employees.Commands.Shared;
 
-namespace Payroll.Application.Employees.UpdateEmployee
+namespace Payroll.Application.Employees.Commands.UpdateEmployee
 {
     public class UpdateEmployeeDetailsCommand : IRequest
     {

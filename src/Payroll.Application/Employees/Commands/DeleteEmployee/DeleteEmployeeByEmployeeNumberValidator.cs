@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using Payroll.Application.Employees.DeleteEmployee;
 
-namespace Marcura.Payroll.Employees.Application.Employees.Commands
+namespace Payroll.Application.Employees.Commands.DeleteEmployee
 {
     public class DeleteEmployeeByEmployeeNumberValidator 
         : AbstractValidator<DeleteEmployeeByEmployeeNumber>

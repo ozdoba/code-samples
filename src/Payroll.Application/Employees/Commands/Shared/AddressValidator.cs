@@ -2,7 +2,7 @@
 using Payroll.Application.Common.Interfaces;
 using Payroll.Application.Common.Validation;
 
-namespace Payroll.Application.Employees.Shared
+namespace Payroll.Application.Employees.Commands.Shared
 {
     public class AddressValidator : AbstractValidator<Address> 
     {

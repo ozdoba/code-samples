@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Payroll.Application.Common.Exceptions;
 using Payroll.Application.Common.Interfaces;
 
-namespace Payroll.Application.Employees.DeleteEmployee
+namespace Payroll.Application.Employees.Commands.DeleteEmployee
 {
     public class DeleteEmployeeByEmployeeNumber : IRequest
     {

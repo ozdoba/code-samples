@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Payroll.Application.Employees.DeleteEmployee;
-using Payroll.Application.Employees.RegisterEmployee;
-using Payroll.Application.Employees.UpdateEmployee;
+using Payroll.Application.Employees.Commands.DeleteEmployee;
+using Payroll.Application.Employees.Commands.RegisterEmployee;
+using Payroll.Application.Employees.Commands.UpdateEmployee;
 
 namespace Payroll.WebApi.Controllers.Employees
 {

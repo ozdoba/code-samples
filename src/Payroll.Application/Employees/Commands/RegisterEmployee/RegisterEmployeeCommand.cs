@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Payroll.Application.Common.Exceptions;
 using Payroll.Application.Common.Interfaces;
 using Payroll.Domain.Employees;
-using Address = Payroll.Application.Employees.Shared.Address;
+using Address = Payroll.Application.Employees.Commands.Shared.Address;
 
-namespace Payroll.Application.Employees.RegisterEmployee
+namespace Payroll.Application.Employees.Commands.RegisterEmployee
 {
     public class RegisterEmployeeCommand : IRequest<string>
     {
