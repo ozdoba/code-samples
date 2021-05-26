@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Payroll.Application.Common.Interfaces;
+using Payroll.Application.Employees;
 using Payroll.Infrastructure.Files;
 using Payroll.Infrastructure.Persistence;
 using Payroll.Infrastructure.Services;

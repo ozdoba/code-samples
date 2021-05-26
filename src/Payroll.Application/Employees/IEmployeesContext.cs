@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Payroll.Domain.Employees;
 
-namespace Payroll.Application.Common.Interfaces
+namespace Payroll.Application.Employees
 {
     public interface IEmployeesContext
     {

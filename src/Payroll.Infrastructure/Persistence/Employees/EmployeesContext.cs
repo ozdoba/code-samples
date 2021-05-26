@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Payroll.Application.Common.Interfaces;
+using Payroll.Application.Employees;
 using Payroll.Domain.Common;
 using Payroll.Domain.Employees;
 
