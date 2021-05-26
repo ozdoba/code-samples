@@ -15,11 +15,11 @@ namespace Payroll.WebApi.Controllers.Health
     [AllowAnonymous]
     public class HealthController : ControllerBase
     {
-        private readonly HealthCheckService healthCheckService;
+        private readonly HealthCheckService _healthCheckService;
 
         public HealthController(HealthCheckService healthCheckService)
         {
-            this.healthCheckService = healthCheckService;
+            this._healthCheckService = healthCheckService;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Payroll.WebApi.Controllers.Health
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            HealthReport report = await this.healthCheckService.CheckHealthAsync();
+            HealthReport report = await this._healthCheckService.CheckHealthAsync();
             var result = new
             {
                 status = report.Status.ToString(),

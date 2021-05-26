@@ -67,7 +67,7 @@ namespace Payroll.Application.Employees.Queries.GetEmployeeDetails
 
         public DateTime? DateOfTermination { get; set; }
 
-        public DateTime DateOfEmployment { get; set; }
+        public DateTime? DateOfEmployment { get; set; }
         public Employee.EmployeeStatus Status { get; set; }
         
         
