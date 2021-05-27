@@ -5,7 +5,7 @@ using MediatR;
 using Payroll.Application.Common.Interfaces;
 using Payroll.Domain.Paycycles;
 
-namespace Payroll.Application.Paycycles.Commands.CreatePaycycle
+namespace Payroll.Application.Paycycles.General.Commands.CreatePaycycle
 {
     public class CreatePaycycleCommand : IRequest<Guid>
     {

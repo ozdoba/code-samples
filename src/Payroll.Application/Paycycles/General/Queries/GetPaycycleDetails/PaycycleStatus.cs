@@ -1,4 +1,4 @@
-﻿namespace Payroll.Application.Paycycles.Queries.ListPaycycles
+﻿namespace Payroll.Application.Paycycles.General.Queries.GetPaycycleDetails
 {
     public enum PaycycleStatus
     {

@@ -4,10 +4,11 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Payroll.Application.Paycycles.Commands.CreatePaycycle;
-using Payroll.Application.Paycycles.Queries.GetPaycycleDetails;
-using Payroll.Application.Paycycles.Queries.ListPaycycles;
+using Payroll.Application.Paycycles.General.Commands.ConfirmPaycycle;
+using Payroll.Application.Paycycles.General.Commands.CreatePaycycle;
+using Payroll.Application.Paycycles.General.Queries.GetPaycycleDetails;
 
 namespace Payroll.WebApi.Controllers.Paycycles
 {
@@ -26,7 +27,7 @@ namespace Payroll.WebApi.Controllers.Paycycles
     [Produces(MediaTypeNames.Application.Json)] 
     [ApiConventionType(typeof(DefaultApiConventions))]
     // [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
-    public class PaycyclesController
+    public class PaycyclesController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -61,6 +62,22 @@ namespace Payroll.WebApi.Controllers.Paycycles
         public async Task<IActionResult> GetPaycycleDetails([FromRoute] Guid paycycleId)
         {
             return new OkObjectResult(await _mediator.Send(new GetPaycycleDetailsQuery { PaycycleId = paycycleId }));
+        }
+        
+        /// <summary>
+        /// Confirms the Paycycle. Once confirmed, the pay cycle will be locked and no more additions or removals are possible.
+        /// </summary>
+        /// <param name="paycycleId"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("{paycycleId}/confirm")]
+        // [SwaggerOperation(Tags = new[] {"Paycycle"})]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> ConfirmPaycycle([FromRoute] Guid paycycleId)
+        {
+            await _mediator.Send(new ConfirmPaycycleCommand { PaycycleId = paycycleId });
+            return NoContent();
         }
     }
 }

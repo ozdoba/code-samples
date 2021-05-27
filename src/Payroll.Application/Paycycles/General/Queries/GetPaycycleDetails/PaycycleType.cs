@@ -1,11 +1,10 @@
 ﻿using System;
 using AutoMapper;
 using Payroll.Application.Common.Mappings;
-using Payroll.Domain.Paycycles;
 
-namespace Payroll.Application.Paycycles.Queries.ListPaycycles
+namespace Payroll.Application.Paycycles.General.Queries.GetPaycycleDetails
 {
-    public class PaycycleType : IMapFrom<Paycycle>
+    public class PaycycleType : IMapFrom<Domain.Paycycles.Paycycle>
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -14,7 +13,7 @@ namespace Payroll.Application.Paycycles.Queries.ListPaycycles
         public PaycycleStatus Status { get; set; }
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Paycycle, PaycycleType>()
+            profile.CreateMap<Domain.Paycycles.Paycycle, PaycycleType>()
                 .ForMember(
                     dest => dest.Status,
                     opt => opt.MapFrom(

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Payroll.Application.Paycycles.Commands.CreatePaycycle
+namespace Payroll.Application.Paycycles.General.Commands.CreatePaycycle
 {
     public class CreatePaycycleCommandValidator : AbstractValidator<CreatePaycycleCommand>
     {

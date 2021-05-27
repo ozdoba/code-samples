@@ -7,9 +7,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Payroll.Application.Common.Interfaces;
 using Payroll.Application.Paycycles.Exceptions;
-using Payroll.Application.Paycycles.Queries.ListPaycycles;
 
-namespace Payroll.Application.Paycycles.Queries.GetPaycycleDetails
+namespace Payroll.Application.Paycycles.General.Queries.GetPaycycleDetails
 {
     public class GetPaycycleDetailsQuery : IRequest<PaycycleDetailsVm>
     {

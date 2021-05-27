@@ -1,6 +1,4 @@
-﻿using Payroll.Application.Paycycles.Queries.ListPaycycles;
-
-namespace Payroll.Application.Paycycles.Queries.GetPaycycleDetails
+﻿namespace Payroll.Application.Paycycles.General.Queries.GetPaycycleDetails
 {
     public class PaycycleDetailsVm
     {
