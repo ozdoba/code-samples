@@ -19,6 +19,10 @@ namespace Payroll.Infrastructure.Persistence.Paycycles
         }
 
         public DbSet<Paycycle> Paycycles { get; set; }
+        
+        // public DbSet<Payee> Payees { get; set; }
+        //
+        // public DbSet<PaymentOptions> PaymentOptions { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -41,6 +45,15 @@ namespace Payroll.Infrastructure.Persistence.Paycycles
             var result = await base.SaveChangesAsync(cancellationToken);
 
             return result;
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // modelBuilder.Entity<PaymentOptions>()
+            //     .OwnsOne(x => x.BranchAddress);
+            // modelBuilder.Entity<Payee>()
+            //     .OwnsOne(x=> x.PaymentOptions);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

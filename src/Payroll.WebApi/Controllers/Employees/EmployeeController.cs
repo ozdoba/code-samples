@@ -13,6 +13,7 @@ using Payroll.Application.Employees.Commands.RegisterEmployee;
 using Payroll.Application.Employees.Commands.UpdateEmployee;
 using Payroll.Application.Employees.Queries.ExportEmployees;
 using Payroll.Application.Employees.Queries.GetEmployeeDetails;
+using Payroll.Application.Employees.Queries.ListEmployees;
 using Payroll.Application.Employees.Queries.ListIdDocuments;
 
 namespace Payroll.WebApi.Controllers.Employees
@@ -56,6 +57,23 @@ namespace Payroll.WebApi.Controllers.Employees
         public async Task<ActionResult<string>> Register(RegisterEmployeeCommand command)
         {
             return await _mediator.Send(command);
+        }
+        
+        
+        /// <summary>
+        /// List employees
+        /// </summary>
+        /// <remarks>
+        /// Returns the list of employees for the current customer
+        /// </remarks>
+        /// <returns></returns>
+        [HttpGet]
+        // [SwaggerOperation(Tags = new[] {"Employees"})]
+        [ProducesResponseType(typeof(ListEmployeesResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        public async Task<IActionResult> ListEmployees(EmployeeStatusType? status)
+        {
+            return new OkObjectResult(await _mediator.Send(new ListEmployeesQuery() { Status = status }));
         }
         
         /// <summary>

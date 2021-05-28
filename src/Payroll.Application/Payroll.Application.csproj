@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <Folder Include="Paycycles\General" />
+      <Folder Include="Paycycles\Payees\Queries" />
     </ItemGroup>
 
 </Project>

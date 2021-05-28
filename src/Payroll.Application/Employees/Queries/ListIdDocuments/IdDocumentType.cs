@@ -35,7 +35,7 @@ namespace Payroll.Application.Employees.Queries.ListIdDocuments
                 .ForMember(
                     dest => dest.IdType,
                     opt => opt.MapFrom(
-                        src => Enum.Parse<CategoryType>(src.IdType)));
+                        src => Enum.Parse<CategoryType>(src.IdType.ToString())));
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Payroll.Domain.Employees
         public DateTime? DateOfTermination { get; set; }
 
         public DateTime DateOfEmployment { get; set; }
-        public EmployeeStatus Status { get; set; }
+        public EmployeeStatus Status { get; set; } = EmployeeStatus.AwaitingApproval;
 
         public ICollection<IdDocument> IdDocuments { get; private set; } = new List<IdDocument>();
 

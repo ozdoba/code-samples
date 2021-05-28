@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,8 +7,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Payroll.Application.Common.Exceptions;
 using Payroll.Application.Common.Interfaces;
-using Payroll.Application.Common.Mappings;
-using Payroll.Domain.Employees;
 
 namespace Payroll.Application.Employees.Queries.GetEmployeeDetails
 {
@@ -42,44 +39,5 @@ namespace Payroll.Application.Employees.Queries.GetEmployeeDetails
 
             return details ?? throw EmployeeNotFound.ForEmployeeNumber(request.EmployeeNumber);
         }
-    }
-    
-    public class EmployeeDetailsType : IMapFrom<Employee>
-    {
-        public Guid CustomerId { get; set; }
-        public Guid EmployeeId { get; set; }
-        public string EmployeeNumber { get; set; }
-
-        public string JobTitle { get; set; }
-        public string FirstName { get; set; }
-        public string? MiddleName { get; set; }
-        public string LastName { get; set; }
-
-        public AddressType Address { get; set; }
-
-        public string PrivateEmailAddress { get; set; }
-        public string CorporateEmailAddress { get; set; }
-        public string MobileNumber { get; set; }
-        public string Nationality { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public string? PlaceOfBirth { get; set; }
-        public string? LocalTaxNumber { get; set; }
-
-        public DateTime? DateOfTermination { get; set; }
-
-        public DateTime? DateOfEmployment { get; set; }
-        public Employee.EmployeeStatus Status { get; set; }
-        
-        
-    }
-
-    public class AddressType : IMapFrom<Address>
-    {
-        public string BuildingNumber { get; set; }
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string? State { get; set; }
-        public string PostalCode { get; set; }
-        public string CountryCode { get; set; }
     }
 }
