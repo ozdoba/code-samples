@@ -12,6 +12,9 @@ namespace Payroll.Application.Employees.Commands.UpdateEmployee
 {
     public class UpdateEmployeeDetailsCommand : IRequest
     {
+        /// <summary>
+        /// Your unique employee/staff identifier
+        /// </summary>
         public string EmployeeNumber { get; set; }
         /// <summary>
         /// Job title of employee
@@ -100,7 +103,7 @@ namespace Payroll.Application.Employees.Commands.UpdateEmployee
 
             if (employee == default)
             {
-                throw new EmployeeNotFound($"Employee [{command.EmployeeNumber}] not found");
+                throw EmployeeNotFound.ForEmployeeNumber(command.EmployeeNumber);
             }
 
             
