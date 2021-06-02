@@ -29,7 +29,7 @@ namespace Payroll.Application.Paycycles.General.Commands.ConfirmPaycycle
         public async Task<Unit> Handle(ConfirmPaycycleCommand request, CancellationToken cancellationToken)
         {
             var paycycle = await Queryable
-                .Where<Domain.Paycycles.Paycycle>(_context.Paycycles, c => c.CustomerId == _customerService.GetCustomerId())
+                .Where<Paycycle>(_context.Paycycles, c => c.CustomerId == _customerService.GetCustomerId())
                 .FirstOrDefaultAsync(c => c.PaycycleId == request.PaycycleId, cancellationToken);
 
             if (paycycle == default)

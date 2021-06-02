@@ -2,13 +2,16 @@ namespace Payroll.Domain.Paycycles
 {
     public class PaymentOptions
     {
+        public string EmployeeNumber { get; set; }
+        public Payee Payee { get; set; }
+
         public string AccountHolder { get; set; }
         public string AccountNumber { get; set; }
                 
         public string? BankName { get; set; }	
         public string? SwiftCode { get; set; }
         public string? BranchCode { get; set; }
-        public Address BranchAddress { get; set; }
+        public Address? BranchAddress { get; set; }
         
         public string IsoCountryCode { get; set; }
     }

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,11 +30,22 @@ namespace Payroll.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+            
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             
             services.AddHealthChecks()
                 .AddDbContextCheck<EmployeesContext>();
+            
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme
+                        = AuthenticationSchemeConstants.TokenValidationScheme;
+                })
+                .AddScheme<TokenValidationSchemeOptions, TokenValidationHandler>
+                    (AuthenticationSchemeConstants.TokenValidationScheme, op => { });
+
             
             services.AddControllers()
                 .AddNewtonsoftJson(opts =>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payroll.Infrastructure.Persistence.Paycycles;
 
 namespace Payroll.Infrastructure.Persistence.Paycycles.Migrations
 {
     [DbContext(typeof(PaycyclesContext))]
-    partial class PaycyclesContextModelSnapshot : ModelSnapshot
+    [Migration("20210601132717_FixPayroll")]
+    partial class FixPayroll
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

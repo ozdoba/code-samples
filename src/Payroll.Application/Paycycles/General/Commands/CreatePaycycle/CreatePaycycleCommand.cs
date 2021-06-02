@@ -27,12 +27,11 @@ namespace Payroll.Application.Paycycles.General.Commands.CreatePaycycle
 
         public async Task<Guid> Handle(CreatePaycycleCommand request, CancellationToken cancellationToken)
         {
-            var paycycle = new Paycycle {
-                CustomerId = _customerService.GetCustomerId(),
-                StartDate = request.StartDate,
-                EndDate = request.EndDate,
-                Payday = request.Payday
-            };
+            var paycycle = new Paycycle(
+                _customerService.GetCustomerId(), 
+                request.StartDate,
+                request.EndDate,
+                request.Payday);
 
             _context.Paycycles.Add(paycycle);
             await _context.SaveChangesAsync(cancellationToken);

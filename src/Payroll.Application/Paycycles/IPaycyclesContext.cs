@@ -9,8 +9,6 @@ namespace Payroll.Application.Paycycles
     {
         DbSet<Paycycle> Paycycles { get; }
         
-        // DbSet<Payee> Payees { get; set; }
-        
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Payroll.Application.Common.Interfaces;
@@ -38,6 +39,7 @@ namespace Payroll.WebApi.Controllers.Employees
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)] 
     [ApiConventionType(typeof(DefaultApiConventions))]
+    [Authorize(AuthenticationSchemes = AuthenticationSchemeConstants.TokenValidationScheme)]
     // [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
     public class EmployeesController : ControllerBase
     {
@@ -78,10 +80,13 @@ namespace Payroll.WebApi.Controllers.Employees
         /// <returns></returns>
         [HttpGet]
         // [SwaggerOperation(Tags = new[] {"Employees"})]
+        [Authorize(Roles = "employees:read")]
         [ProducesResponseType(typeof(ListEmployeesResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> ListEmployees(EmployeeStatusType? status)
         {
+            var headers = HttpContext.Request.Headers;
+            var auth = headers["Authorization"];
             return new OkObjectResult(await _mediator.Send(new ListEmployeesQuery() { Status = status }));
         }
         
