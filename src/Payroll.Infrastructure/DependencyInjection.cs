@@ -15,7 +15,7 @@ namespace Payroll.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<ICustomerService, DefaultCustomerService>();
+            services.AddTransient<ICustomerService, CustomerFromRequestHeaderService>();
             services.AddScoped<ICountryLookup, CountryLookup>();
             services.AddScoped<IDateTime, SystemDateTime>();
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();

@@ -43,7 +43,6 @@ namespace Payroll.WebApi
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            // validation comes in here
             if (!Request.Headers.ContainsKey(HeaderNames.Authorization))
             {
                 return AuthenticateResult.Fail("Header Not Found.");
@@ -52,6 +51,7 @@ namespace Payroll.WebApi
             var authHeaderValue = Request.Headers[HeaderNames.Authorization];
             var authHeader = AuthenticationHeaderValue.Parse(authHeaderValue);
 
+            HttpResponseMessage validationResponse = null;
             try
             {
                 var request = new HttpRequestMessage
@@ -61,48 +61,53 @@ namespace Payroll.WebApi
                 };
                 request.Headers.Authorization = authHeader;
 
-                var validationResponse = await _client.SendAsync(request);
+                validationResponse = await _client.SendAsync(request);
 
                 if (!validationResponse.IsSuccessStatusCode)
                 {
-                    return AuthenticateResult.Fail("Unable to validate token. Unsuccessful response from validation endpoint");
-                }
-
-                var tokenInfo =
-                    JsonSerializer.Deserialize<TokenInformation>(await validationResponse.Content.ReadAsStringAsync());
-
-                if (null != tokenInfo)
-                {
-                    if (!string.IsNullOrEmpty(tokenInfo.Error))
-                    {
-                        return AuthenticateResult.Fail(tokenInfo.ErrorDescription);
-                    }
-
-                    var claims = new List<Claim>()
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, tokenInfo.ClientId),
-                    };
-                    claims.AddRange(tokenInfo.Scopes.Select(s => new Claim(ClaimTypes.Role, s)));
-                    
-                    // generate claimsIdentity on the name of the class
-                    var claimsIdentity = new ClaimsIdentity(claims,
-                        nameof(TokenValidationHandler));
-
-                    // generate AuthenticationTicket from the Identity
-                    // and current authentication scheme
-                    var ticket = new AuthenticationTicket(
-                        new ClaimsPrincipal(claimsIdentity), this.Scheme.Name);
-
-                    // pass on the ticket to the middleware
-                    return AuthenticateResult.Success(ticket);
+                    return AuthenticateResult.Fail(
+                        "Unable to validate token. Unsuccessful response from tokeninfo endpoint");
                 }
             }
             catch (Exception ex)
             {
-                return AuthenticateResult.Fail("Exception in token validation");
+                return AuthenticateResult.Fail("Unable to send token validation request.");
             }
+
+            TokenInformation tokenInfo = null;
+            try
+            {
+                tokenInfo =
+                    JsonSerializer.Deserialize<TokenInformation>(await validationResponse.Content.ReadAsStringAsync());
+            }
+            catch (Exception e)
+            {
+                return AuthenticateResult.Fail("Unable to deserialize TokenInformation");
+            }
+
+            if (null == tokenInfo)
+            {
+                return AuthenticateResult.Fail("TokenInformation is null");
+            }
+                
+            if (!string.IsNullOrEmpty(tokenInfo.Error))
+            {
+                return AuthenticateResult.Fail(tokenInfo.ErrorDescription);
+            }
+
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, tokenInfo.ClientId),
+            };
+            claims.AddRange(tokenInfo.Scopes.Select(s => new Claim(ClaimTypes.Role, s)));
             
-            return AuthenticateResult.Fail("Running out of options");
+            var claimsIdentity = new ClaimsIdentity(claims,
+                nameof(TokenValidationHandler));
+
+            var ticket = new AuthenticationTicket(
+                new ClaimsPrincipal(claimsIdentity), this.Scheme.Name);
+
+            return AuthenticateResult.Success(ticket);
         }
     }
 
