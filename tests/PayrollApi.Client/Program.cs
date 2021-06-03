@@ -15,22 +15,24 @@ namespace PayrollApi.Client
         static async Task Main(string[] args)
         {
             await RequestToken();
-            await GetHEmployees();
+            await GetEmployees();
         }
 
-        private static async Task GetHEmployees()
+        private static async Task GetEmployees()
         {
             var message = new HttpRequestMessage
             {
                 RequestUri = new Uri("http://localhost:9100/payroll/employees/v1"),
                 Method = HttpMethod.Get
             };
-            var msg = await client.SendAsync(message);
+            message.Headers.Add("X-CustomerId", "30bc2c0c-7a71-4e9c-b171-097a5250811a");
             
-            Console.WriteLine(message.Headers.Authorization.ToString());
+            var response = await client.SendAsync(message);
+            
+            Console.WriteLine(message.Headers.Authorization?.ToString());
 
-            msg.EnsureSuccessStatusCode();
-            Console.WriteLine(await msg.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
         
         private static async Task RequestToken()
@@ -58,7 +60,8 @@ namespace PayrollApi.Client
             msg.EnsureSuccessStatusCode();
 
             var response = JsonSerializer.Deserialize<AuthResopnse>(await msg.Content.ReadAsStringAsync());
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(response.TokenType, response.AccessToken);
+            
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(response.TokenType, response?.AccessToken);
             Console.WriteLine(client.DefaultRequestHeaders.Authorization);
         }
         

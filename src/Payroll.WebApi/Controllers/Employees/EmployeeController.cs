@@ -65,6 +65,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<ActionResult<string>> Register(RegisterEmployeeCommand command)
         {
             return await _mediator.Send(command);
@@ -80,9 +81,9 @@ namespace Payroll.WebApi.Controllers.Employees
         /// <returns></returns>
         [HttpGet]
         // [SwaggerOperation(Tags = new[] {"Employees"})]
-        [Authorize(Roles = "employees:read")]
         [ProducesResponseType(typeof(ListEmployeesResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:read")]
         public async Task<IActionResult> ListEmployees(EmployeeStatusType? status)
         {
             var headers = HttpContext.Request.Headers;
@@ -105,6 +106,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:read")]
         public async Task<ActionResult<EmployeeDetailsType>> FindByEmployeeByNumber([FromRoute] string employeeNumber)
         {
             return await _mediator.Send(new GetEmployeeDetailsQuery() { EmployeeNumber = employeeNumber });
@@ -127,6 +129,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<ActionResult> DeleteByEmployeeNumber([FromRoute] string employeeNumber)
         {
             await _mediator.Send(new DeleteEmployeeByEmployeeNumber {EmployeeNumber = employeeNumber});
@@ -148,6 +151,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdateEmployeeDetails(
             [FromRoute] string employeeNumber,
             [FromBody] UpdateEmployeeDetailsCommand command)
@@ -173,6 +177,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdateEmployeeAddress(
             [FromRoute] string employeeNumber,
             [FromBody] UpdateAddressCommand command)
@@ -198,6 +203,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdateEmployeeName(
             [FromRoute] string employeeNumber,
             [FromBody] UpdateNameCommand command)
@@ -223,6 +229,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdateMobileNumber(
             [FromRoute] string employeeNumber,
             [FromBody] UpdateMobileNumberCommand command)
@@ -247,6 +254,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdatePrivateEmail(
             [FromRoute] string employeeNumber,
             [FromBody] UpdatePrivateEmailCommand command)
@@ -272,6 +280,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdateCorporateEmail(
             [FromRoute] string employeeNumber,
             [FromBody] UpdateCorporateEmailCommand command)
@@ -297,6 +306,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdateDateOfBirth(
             [FromRoute] string employeeNumber,
             [FromBody] UpdateDateOfBirthCommand command)
@@ -322,6 +332,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdatePlaceOfBirth(
             [FromRoute] string employeeNumber,
             [FromBody] UpdatePlaceOfBirthCommand command)
@@ -347,6 +358,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdateDateOfEmployment(
             [FromRoute] string employeeNumber,
             [FromBody] UpdateDateOfEmploymentCommand command)
@@ -372,6 +384,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> UpdateTaxNumber(            
             [FromRoute] string employeeNumber, 
             [FromBody] UpdateTaxNumberCommand command)
@@ -401,6 +414,7 @@ namespace Payroll.WebApi.Controllers.Employees
         
         
         [HttpGet("{customerId}/export")]
+        [Authorize(Roles = "employees:read")]
         public async Task<FileResult> Get([FromRoute] Guid customerId)
         {
             var vm = await _mediator.Send(new ExportEmployeesQuery { CustomerId = customerId });
@@ -424,6 +438,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:write")]
         public async Task<IActionResult> AddIdDocument(
             [FromBody] AddIdDocumentCommand command)
         {
@@ -447,6 +462,7 @@ namespace Payroll.WebApi.Controllers.Employees
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        [Authorize(Roles = "employees:read")]
         public async Task<IActionResult> ListIdDocuments([FromRoute] string employeeNumber)
         {
             var idDocuments = await _mediator.Send(new ListIdDocumentsQuery { CustomerId = _customerService.GetCustomerId(), EmployeeNumber = employeeNumber });

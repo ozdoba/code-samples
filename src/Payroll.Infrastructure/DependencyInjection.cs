@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Payroll.Application.Common.Interfaces;
 using Payroll.Application.Employees;
 using Payroll.Application.Paycycles;
@@ -15,7 +17,8 @@ namespace Payroll.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<ICustomerService, CustomerFromRequestHeaderService>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<ICustomerService, CustomerFromRequestHeaderService>();
             services.AddScoped<ICountryLookup, CountryLookup>();
             services.AddScoped<IDateTime, SystemDateTime>();
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
