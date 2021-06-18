@@ -8,7 +8,8 @@ namespace Payroll.Application.Paycycles
     public interface IPaycyclesContext
     {
         DbSet<Paycycle> Paycycles { get; }
-        
+        DbSet<PayCode> PayCodes { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -15,7 +15,8 @@ namespace Payroll.Application.Paycycles.PayInstructions.Queries.Dto
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Money, MoneyType>();
-            profile.CreateMap<PayInstruction, InstructionDetailsDto>();
+            profile.CreateMap<PayInstruction, InstructionDetailsDto>()
+                .ForMember(x=>x.PayCode, c=>c.MapFrom(x=>x.PayCode.Code));
         }
     }
 }

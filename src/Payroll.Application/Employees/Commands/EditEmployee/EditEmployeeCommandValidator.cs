@@ -4,11 +4,11 @@ using Payroll.Application.Common.Interfaces;
 using Payroll.Application.Common.Validation;
 using Payroll.Application.Employees.Commands.Shared;
 
-namespace Payroll.Application.Employees.Commands.UpdateEmployee
+namespace Payroll.Application.Employees.Commands.EditEmployee
 {
-    public class UpdateEmployeeDetailsCommandValidator : AbstractValidator<UpdateEmployeeDetailsCommand>
+    public class EditEmployeeCommandValidator : AbstractValidator<EditEmployeeCommand>
     {
-        public UpdateEmployeeDetailsCommandValidator(ICountryLookup countryLookup) 
+        public EditEmployeeCommandValidator(ICountryLookup countryLookup) 
         {
             RuleFor(p => p.JobTitle)
                 .NotNull()

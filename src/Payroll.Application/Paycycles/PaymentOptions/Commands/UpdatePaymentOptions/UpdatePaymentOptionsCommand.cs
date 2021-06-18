@@ -49,7 +49,7 @@ namespace Payroll.Application.Paycycles.PaymentOptions.Commands.UpdatePaymentOpt
                 throw new PaycycleNotFound($"Paycycle [{request.PaycycleId}] not found");
             }
 
-            var payee = paycycle.FindPayee(request.EmployeeNumber);
+            var payee = paycycle.FindOrCreatePayee(request.EmployeeNumber);
 
             if (payee == default)
             {

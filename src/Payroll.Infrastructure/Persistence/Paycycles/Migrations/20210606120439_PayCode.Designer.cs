@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payroll.Infrastructure.Persistence.Paycycles;
 
 namespace Payroll.Infrastructure.Persistence.Paycycles.Migrations
 {
     [DbContext(typeof(PaycyclesContext))]
-    partial class PaycyclesContextModelSnapshot : ModelSnapshot
+    [Migration("20210606120439_PayCode")]
+    partial class PayCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,11 +48,9 @@ namespace Payroll.Infrastructure.Persistence.Paycycles.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PayCodeCode")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid?>("PayCodeCustomerId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("PayCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PayeeEmployeeNumber")
                         .HasColumnType("nvarchar(450)");
@@ -61,8 +61,6 @@ namespace Payroll.Infrastructure.Persistence.Paycycles.Migrations
                     b.HasKey("InstructionId");
 
                     b.HasIndex("PayeeEmployeeNumber");
-
-                    b.HasIndex("PayCodeCustomerId", "PayCodeCode");
 
                     b.ToTable("PayInstruction");
                 });
@@ -146,10 +144,6 @@ namespace Payroll.Infrastructure.Persistence.Paycycles.Migrations
                         .WithMany("PayInstructions")
                         .HasForeignKey("PayeeEmployeeNumber");
 
-                    b.HasOne("Payroll.Domain.Paycycles.PayCode", "PayCode")
-                        .WithMany()
-                        .HasForeignKey("PayCodeCustomerId", "PayCodeCode");
-
                     b.OwnsOne("Payroll.Domain.Paycycles.Money", "TotalAmount", b1 =>
                         {
                             b1.Property<Guid>("PayInstructionInstructionId")
@@ -187,8 +181,6 @@ namespace Payroll.Infrastructure.Persistence.Paycycles.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("PayInstructionInstructionId");
                         });
-
-                    b.Navigation("PayCode");
 
                     b.Navigation("TotalAmount");
 

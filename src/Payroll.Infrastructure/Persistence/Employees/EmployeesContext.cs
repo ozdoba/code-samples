@@ -60,6 +60,7 @@ namespace Payroll.Infrastructure.Persistence
         public void Configure(EntityTypeBuilder<IdDocument> builder)
         {
             builder.HasKey(x => x.Id);
+            
         
             builder.Property(x => x.EmployeeId).IsRequired();
             builder.Property(x => x.IdType).IsRequired();
@@ -77,8 +78,12 @@ namespace Payroll.Infrastructure.Persistence
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
+            // TODO: Evaluate if it makes more sense to use composite key for employees (CustomerId|EmployeeNumber)
+            // builder.HasKey(x => new { x.CustomerId, x.EmployeeNumber });
+
             builder.HasKey(x => x.EmployeeId);
             builder.Property(x => x.CustomerId).IsRequired();
+            
             builder.Property(x => x.EmployeeNumber).IsRequired();
             builder.Property(x => x.JobTitle).IsRequired();
             builder.Property(x => x.FirstName).IsRequired();

@@ -45,7 +45,7 @@ namespace Payroll.WebApi
         {
             if (!Request.Headers.ContainsKey(HeaderNames.Authorization))
             {
-                return AuthenticateResult.Fail("Header Not Found.");
+                return AuthenticateResult.Fail($"{HeaderNames.Authorization} header Not Found.");
             }
 
             var authHeaderValue = Request.Headers[HeaderNames.Authorization];
@@ -99,7 +99,9 @@ namespace Payroll.WebApi
             {
                 new Claim(ClaimTypes.NameIdentifier, tokenInfo.ClientId),
             };
-            claims.AddRange(tokenInfo.Scopes.Select(s => new Claim(ClaimTypes.Role, s)));
+            claims.AddRange(
+                tokenInfo.Scopes.Select(s => new Claim(ClaimTypes.Role, s))
+            );
             
             var claimsIdentity = new ClaimsIdentity(claims,
                 nameof(TokenValidationHandler));
@@ -115,14 +117,19 @@ namespace Payroll.WebApi
     {
         [JsonPropertyName("access_token")]
         public string AccessToken { get; set; }
+        
         [JsonPropertyName("grant_type")]
         public string GrantType { get; set; }
+        
         [JsonPropertyName("scope")]
         public IEnumerable<string> Scopes { get; set; }
+        
         [JsonPropertyName("client_id")]
         public string ClientId { get; set;}
+        
         [JsonPropertyName("error_description")]
         public string ErrorDescription { get; set; }
+        
         [JsonPropertyName("error")]
         public string Error { get; set; }
     }

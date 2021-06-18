@@ -14,7 +14,7 @@ namespace Payroll.Domain.Paycycles
         // public string TotalAmountCurrency { get; set; }
         // public decimal TotalAmountAmount { get; set; }
         public Money TotalAmount { get; set; }
-        public string PayCode { get; set; }
+        public PayCode PayCode { get; set; }
         public string Description { get; set; }
     }
 }

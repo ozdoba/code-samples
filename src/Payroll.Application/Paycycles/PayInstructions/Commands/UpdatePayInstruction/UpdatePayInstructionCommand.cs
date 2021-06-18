@@ -37,6 +37,13 @@ namespace Payroll.Application.Paycycles.PayInstructions.Commands.UpdatePayInstru
         
         public async Task<Unit> Handle(UpdatePayInstructionCommand request, CancellationToken cancellationToken)
         {
+            var paycode = await _context.PayCodes.FindAsync(_customerService.GetCustomerId(), request.PayCode);
+
+            if (null == paycode)
+            {
+                throw new ArgumentNullException("Paycode", "Requested paycode not found");
+            }
+            
             var paycycle = await _context.Paycycles
                 .Include(x => x.Payees)
                 .ThenInclude(x=>x.PayInstructions)
@@ -69,7 +76,7 @@ namespace Payroll.Application.Paycycles.PayInstructions.Commands.UpdatePayInstru
             // instruction.TotalAmountAmount = request.TotalAmount.Amount;
             // instruction.TotalAmountCurrency = request.TotalAmount.Currency;
             instruction.TotalAmount = global::Payroll.Domain.Paycycles.Money.For(request.TotalAmount.Currency, request.TotalAmount.Amount);
-            instruction.PayCode = request.PayCode;
+            instruction.PayCode = paycode;
             instruction.Description = request.Description;
 
             await _context.SaveChangesAsync(cancellationToken);

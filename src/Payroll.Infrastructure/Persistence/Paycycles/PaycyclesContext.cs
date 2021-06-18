@@ -44,9 +44,11 @@ namespace Payroll.Infrastructure.Persistence.Paycycles
         }
 
         public DbSet<Paycycle> Paycycles { get; set; }
+        public DbSet<PayCode> PayCodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new PayCodeConfiguration());
             modelBuilder.ApplyConfiguration(new PayeeConfiguration());
             modelBuilder.ApplyConfiguration(new PayInstructionConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentOptionsConfiguration());
@@ -74,7 +76,7 @@ namespace Payroll.Infrastructure.Persistence.Paycycles
                 // builder.Property(x => x.TotalAmountCurrency).IsRequired();
                 // builder.Property(x => x.TotalAmountAmount).IsRequired();
                 builder.OwnsOne(x => x.TotalAmount, p => p.Property(e=>e.Currency).HasConversion<string>());
-                builder.Property(x => x.PayCode).IsRequired();
+                builder.HasOne(x => x.PayCode);
                 builder.Property(x => x.Description);
                 // builder.Property(x => x.UnitAmountCurrency);
                 // builder.Property(x => x.UnitAmountAmount);
@@ -101,6 +103,15 @@ namespace Payroll.Infrastructure.Persistence.Paycycles
                 builder.Property(x => x.SwiftCode);
                 builder.Property(x => x.BranchCode);
                 builder.Property(x => x.IsoCountryCode).IsRequired();
+            }
+        }
+        
+        public class PayCodeConfiguration : IEntityTypeConfiguration<PayCode>
+        {
+            public void Configure(EntityTypeBuilder<PayCode> builder)
+            {
+                builder
+                    .HasKey(x => new { x.CustomerId, x.Code });
             }
         }
     }

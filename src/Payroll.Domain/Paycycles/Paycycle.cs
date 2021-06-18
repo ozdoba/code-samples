@@ -59,7 +59,7 @@ namespace Payroll.Domain.Paycycles
             return Payees.FirstOrDefault(p => p.EmployeeNumber == employeeNumber);
         }
         
-        private Payee FindOrCreatePayee(string employeeNumber)
+        public Payee FindOrCreatePayee(string employeeNumber)
         {
             var payee = FindPayee(employeeNumber);
 

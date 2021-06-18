@@ -8,9 +8,9 @@ using Payroll.Application.Common.Exceptions;
 using Payroll.Application.Common.Interfaces;
 using Payroll.Application.Employees.Commands.Shared;
 
-namespace Payroll.Application.Employees.Commands.UpdateEmployee
+namespace Payroll.Application.Employees.Commands.EditEmployee
 {
-    public class UpdateEmployeeDetailsCommand : IRequest
+    public class EditEmployeeCommand : IRequest
     {
         /// <summary>
         /// Your unique employee/staff identifier
@@ -84,18 +84,18 @@ namespace Payroll.Application.Employees.Commands.UpdateEmployee
         // public TransferOptions TransferOptions { get; set; }
     }
 
-    public class UpdateEmployeeDetailsCommandHandler : IRequestHandler<UpdateEmployeeDetailsCommand>
+    public class EditEmployeeCommandHandler : IRequestHandler<EditEmployeeCommand>
     {
         private readonly IEmployeesContext _context;
         private readonly ICustomerService _customerService;
 
-        public UpdateEmployeeDetailsCommandHandler(IEmployeesContext context, ICustomerService customerService)
+        public EditEmployeeCommandHandler(IEmployeesContext context, ICustomerService customerService)
         {
             _context = context; 
             _customerService = customerService;
         }
         
-        public async Task<Unit> Handle(UpdateEmployeeDetailsCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EditEmployeeCommand command, CancellationToken cancellationToken)
         {
             var employee = await _context.Employees
                 .Where(e => e.CustomerId == _customerService.GetCustomerId())

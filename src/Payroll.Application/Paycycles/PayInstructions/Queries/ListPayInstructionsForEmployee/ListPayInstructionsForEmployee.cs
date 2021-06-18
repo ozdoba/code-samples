@@ -36,6 +36,7 @@ namespace Payroll.Application.Paycycles.PayInstructions.Queries.ListPayInstructi
                 .AsNoTracking()
                 .Include(x => x.Payees)
                 .ThenInclude(x=>x.PayInstructions)
+                .ThenInclude(x=>x.PayCode)
                 .Where(x => x.CustomerId == request.CustomerId)
                 .FirstOrDefaultAsync(x => x.PaycycleId == request.PaycycleId, cancellationToken);
             

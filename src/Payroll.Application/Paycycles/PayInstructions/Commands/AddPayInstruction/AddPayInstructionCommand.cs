@@ -16,7 +16,7 @@ namespace Payroll.Application.Paycycles.PayInstructions.Commands.AddPayInstructi
         public Guid PaycycleId { get; set; }
         public string EmployeeNumber { get; set; }
         
-        public Money UnitAmount { get; set; }
+        public Money? UnitAmount { get; set; }
         public decimal? Quantity { get; set; }
         public Money TotalAmount { get; set; }
         public string PayCode { get; set; }
@@ -36,6 +36,13 @@ namespace Payroll.Application.Paycycles.PayInstructions.Commands.AddPayInstructi
         
         public async Task<Guid> Handle(AddPayInstructionCommand command, CancellationToken cancellationToken)
         {
+            var paycode = await _context.PayCodes.FindAsync(_customerService.GetCustomerId(), command.PayCode);
+
+            if (null == paycode)
+            {
+                throw new ArgumentNullException("Paycode", "Requested paycode not found");
+            }
+            
             var paycycle = await _context.Paycycles
                 .Include(x => x.Payees)
                 .ThenInclude(x=>x.PayInstructions)
@@ -50,10 +57,8 @@ namespace Payroll.Application.Paycycles.PayInstructions.Commands.AddPayInstructi
             var instruction = new PayInstruction
             {
                 InstructionId = Guid.NewGuid(),
-                // TotalAmountAmount = command.TotalAmount.Amount,
-                // TotalAmountCurrency = command.TotalAmount.Currency,
                 TotalAmount = global::Payroll.Domain.Paycycles.Money.For(command.TotalAmount.Currency, command.TotalAmount.Amount),
-                PayCode = command.PayCode,
+                PayCode = paycode,
                 Description = command.Description,
                 UnitAmount = global::Payroll.Domain.Paycycles.Money.For(command.UnitAmount?.Currency, command.UnitAmount?.Amount),
                 UnitQuantity = command.Quantity,

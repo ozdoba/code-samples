@@ -1,0 +1,6 @@
+{
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost,5433;Database=SeafarerTestDb;User Id=sa;Password=Marcura@2021"
+  }
+}
